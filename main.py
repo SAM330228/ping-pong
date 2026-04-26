@@ -13,8 +13,6 @@ font1 = font.SysFont('Arial', 36)
 mixer.init()
 #!mixer.music.load('')
 #!mixer.music.play()
-speed_x = 3
-speed_y = 3
 #4. Создай и отобрази спрайты для игрока и врага.
 class GameSprite(sprite.Sprite):
     def __init__(self, player_image, player_x, player_y, player_speed):
@@ -42,8 +40,11 @@ class Player(GameSprite):
         if keys[K_UP] and self.rect.y < y - 5:
             self.rect.y -= self.speed
 
+speed_x = 3
+speed_y = 3
+
 class Ball(GameSprite):
-    def ball_update(self):
+    def balls(self):
         self.rect.x + speed_x
         self.rect.y + speed_y
         if self.rect.x <= 0:
@@ -52,11 +53,17 @@ class Ball(GameSprite):
         if self.rect.x >= 700:
             loser2 = font1.render('Игрок 2 проиграл', True, (255, 0, 0))
             finish = True
+        if self.rect.colliderect(Racket1):
+            self.rect.x *= -1
+            self.rect.y *= -1
+        if self.rect.colliderect(Racket2):
+            self.rect.x *= -1
+            self.rect.y *= -1
 #! id diktui!1!!1! daniil kolbacenko! kto kto?
 #Alt + f4
 Racket1 = Player('Raket1.jpg', 600, 200, 5)
 Racket2 = Player('Raket1.jpg', 50, 200, 5)
-bball = Ball('OIP.webp', 150, 350, 5)
+bball = Ball('OIP.webp', 150, 350, None)
 #5. Создай игровой цикл с выходом при нажатии на «Закрыть окно».
 game = True
 clock = time.Clock()
@@ -73,8 +80,8 @@ while game:
     Racket2.update_r()
     Racket2.reset()
 
-    bball.ball_update()
+    bball.balls()
     bball.reset()
 
-    clock.tick(fps)
     display.update()
+    clock.tick(fps)
