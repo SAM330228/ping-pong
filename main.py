@@ -30,17 +30,17 @@ class GameSprite(sprite.Sprite):
 class Player(GameSprite):
     def update_r(self):
         keys = key.get_pressed()
-        if keys[K_w] and self.rect.y > 5:
-            self.rect.x += self.speed
-        if keys[K_s] and self.rect.y < y - 80:
-            self.rect.x -= self.speed
+        if keys[K_s] and self.rect.y > 5:
+            self.rect.y += self.speed
+        if keys[K_w] and self.rect.y < y - 5:
+            self.rect.y -= self.speed
 
     def update_l(self):
         keys = key.get_pressed()
-        if keys[K_UP] and self.rect.y > 5:
-            self.rect.x += self.speed
-        if keys[K_DOWN] and self.rect.y < y - 80:
-            self.rect.x -= self.speed
+        if keys[K_DOWN] and self.rect.y > 5:
+            self.rect.y += self.speed
+        if keys[K_UP] and self.rect.y < y - 5:
+            self.rect.y -= self.speed
 
 class Ball(GameSprite):
     def ball_update(self):
@@ -52,11 +52,11 @@ class Ball(GameSprite):
         if self.rect.x >= 700:
             loser2 = font1.render('Игрок 2 проиграл', True, (255, 0, 0))
             finish = True
-
+#! id diktui!1!!1! daniil kolbacenko! kto kto?
 #Alt + f4
-Racket1 = Player('Raket1.jpg', 600, 400, 5)
-Racket2 = Player('Raket1.jpg', 50, 400, 5)
-bball = Ball('OIP.webp', 600, 400, 5)
+Racket1 = Player('Raket1.jpg', 600, 200, 5)
+Racket2 = Player('Raket1.jpg', 50, 200, 5)
+bball = Ball('OIP.webp', 150, 350, 5)
 #5. Создай игровой цикл с выходом при нажатии на «Закрыть окно».
 game = True
 clock = time.Clock()
@@ -67,10 +67,10 @@ while game:
             game = False
     window.blit(background,(0,0))
 
-    Racket1.update()
+    Racket1.update_l()
     Racket1.reset()
 
-    Racket2.update()
+    Racket2.update_r()
     Racket2.reset()
 
     bball.ball_update()
