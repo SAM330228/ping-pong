@@ -1,16 +1,20 @@
 #1. Подключи игровую библиотеку pygame.
 from pygame import*
 #2. Создай окно игры размером 700x500, дай ему название.
+finish = False
 x = 700
 y = 500
 window = display.set_mode((x, y))
 display.set_caption('Ping pong')
-background = transform.scale(image.load("Minecraft.jpg"), (x, y))
+background = transform.scale(image.load("111.png"), (x, y))
+font.init()
+font1 = font.SysFont('Arial', 36)
 #3. Музыка
 mixer.init()
 #!mixer.music.load('')
 #!mixer.music.play()
-
+speed_x = 3
+speed_y = 3
 #4. Создай и отобрази спрайты для игрока и врага.
 class GameSprite(sprite.Sprite):
     def __init__(self, player_image, player_x, player_y, player_speed):
@@ -37,9 +41,22 @@ class Player(GameSprite):
             self.rect.x += self.speed
         if keys[K_DOWN] and self.rect.y < y - 80:
             self.rect.x -= self.speed
+
+class Ball(GameSprite):
+    def ball_update(self):
+        self.rect.x + speed_x
+        self.rect.y + speed_y
+        if self.rect.x <= 0:
+            loser1 = font1.render('Игрок 1 проиграл', True, (255, 0, 0))
+            finish = True
+        if self.rect.x >= 700:
+            loser2 = font1.render('Игрок 2 проиграл', True, (255, 0, 0))
+            finish = True
+
 #Alt + f4
-Racket1 = Player('Racket1.png', 600, 400, 5)
-Racket2 = Player('Racket2t.png', 50, 400, 5)
+Racket1 = Player('Raket1.jpg', 600, 400, 5)
+Racket2 = Player('Raket1.jpg', 50, 400, 5)
+bball = Ball('OIP.webp', 600, 400, 5)
 #5. Создай игровой цикл с выходом при нажатии на «Закрыть окно».
 game = True
 clock = time.Clock()
@@ -56,5 +73,8 @@ while game:
     Racket2.update()
     Racket2.reset()
 
-    display.update()
+    bball.ball_update()
+    bball.reset()
+
     clock.tick(fps)
+    display.update()
