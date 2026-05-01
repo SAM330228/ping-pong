@@ -5,7 +5,7 @@ x = 700
 y = 500
 window = display.set_mode((x, y))
 display.set_caption('Ping pong')
-background = transform.scale(image.load("Pony1.png"), (x, y))
+background = transform.scale(image.load("Valley.png"), (x, y))
 font.init()
 font1 = font.SysFont('Arial', 36)
 Lose1 = font1.render("Игрок 1 проиграл", True, (0,128,0))
@@ -67,7 +67,7 @@ class Ball(GameSprite):
 #Alt + f4
 Racket1 = Player('Pony.jpg', 600, 200, 5)
 Racket2 = Player('Pony.jpg', 50, 200, 5)
-bball = Ball('Pony.jpg', 350, 150, speed)
+bball = Ball('Spike.png', 350, 150, speed)
 #5. Создай игровой цикл с выходом при нажатии на «Закрыть окно».
 game = True
 clock = time.Clock()
