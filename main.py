@@ -88,7 +88,7 @@ while game:
     bball.reset()
 
     if bball.rect.x <= 0:#Отрисовка проигрыша первого игрока
-        Lose1 = font1.render("Игрок 1 проиграл", True, (0,0,0))
+        Lose1 = font1.render("Игрок 1 проиграл", True, (128,0,0))
         window.blit(Lose1,(250,100))
         finish = True
     if bball.rect.x >= 700:#Отрисовка проигрыша второго игрока
