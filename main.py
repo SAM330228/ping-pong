@@ -38,18 +38,35 @@ class Player(GameSprite):
 speed = 3
 
 class Ball(GameSprite):
+    def __init__(self, player_image, player_x, player_y, player_speed):
+        super().__init__(player_image, player_x, player_y, player_speed)
+        # Создаем отдельные скорости для движения по осям
+        self.speed_x = player_speed
+        self.speed_y = player_speed
+
     def balls(self):
-        self.rect.x + speed
-        self.rect.y + speed
+        global finish # Чтобы менять переменную состояния игры
+        
+        # Двигаем мяч
+        self.rect.x += self.speed_x
+        self.rect.y += self.speed_y
+
+        # Отскок от верхней и нижней границ
+        if self.rect.y <= 0 or self.rect.y >= 435: # 500 - высота спрайта (65)
+            self.speed_y *= -1
+
+        # Отскок от ракеток (проверяем по отдельности)
+        if sprite.collide_rect(self, Racket1) or sprite.collide_rect(self, Racket2):
+            self.speed_x *= -1
+            
+        # Проверка проигрыша
         if self.rect.x <= 0:
-            loser1 = font1.render('Игрок 1 проиграл', True, (255, 0, 0))
+            print("Игрок 1 проиграл")
             finish = True
         if self.rect.x >= 700:
-            loser2 = font1.render('Игрок 2 проиграл', True, (255, 0, 0))
+            print("Игрок 2 проиграл")
             finish = True
-        if self.rect.colliderect(Racket1 or Racket2 or self.rect.y >= 500 or self.rect.y <= 0):
-            self.speed *= -1
-            self.speed *= -1
+
 #Alt + f4
 Racket1 = Player('Pony.jpg', 600, 200, 5)
 Racket2 = Player('Pony.jpg', 50, 200, 5)
@@ -78,6 +95,6 @@ while game:
     display.update()
     clock.tick(fps)
 
-#! Физика мяча - не работает
-#! Движение ракеток - есть
-#! Условие проигрыша - нету 
+#! Физика мяча - работает!!!
+#! Движение ракеток - работает!!!
+#! Условие проигрыша - есть, но пишется в консоль...
