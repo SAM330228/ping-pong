@@ -8,6 +8,8 @@ display.set_caption('Ping pong')
 background = transform.scale(image.load("Pony1.png"), (x, y))
 font.init()
 font1 = font.SysFont('Arial', 36)
+Lose1 = font1.render("Игрок 1 проиграл", True, (0,128,0))
+Lose2 = font1.render("Игрок 2 проиграл", True, (0,128,0))
 #3. Создай и отобрази спрайты для игрока и врага.
 class GameSprite(sprite.Sprite):
     def __init__(self, player_image, player_x, player_y, player_speed):
@@ -46,7 +48,8 @@ class Ball(GameSprite):
 
     def balls(self):
         global finish # Чтобы менять переменную состояния игры
-        
+        global Lose2
+        global Lose1
         # Двигаем мяч
         self.rect.x += self.speed_x
         self.rect.y += self.speed_y
@@ -60,12 +63,6 @@ class Ball(GameSprite):
             self.speed_x *= -1
             
         # Проверка проигрыша
-        if self.rect.x <= 0:
-            print("Игрок 1 проиграл")
-            finish = True
-        if self.rect.x >= 700:
-            print("Игрок 2 проиграл")
-            finish = True
 
 #Alt + f4
 Racket1 = Player('Pony.jpg', 600, 200, 5)
@@ -90,11 +87,14 @@ while game:
     bball.balls()
     bball.reset()
 
-    
-    
+    if bball.rect.x <= 0:#Отрисовка проигрыша первого игрока
+        Lose1 = font1.render("Игрок 1 проиграл", True, (0,0,0))
+        window.blit(Lose1,(250,100))
+        finish = True
+    if bball.rect.x >= 700:#Отрисовка проигрыша второго игрока
+        Lose2 = font1.render("Игрок 2 проиграл", True, (128,0,0))
+        window.blit(Lose2,(250,100))
+        finish = True
+
     display.update()
     clock.tick(fps)
-
-#! Физика мяча - работает!!!
-#! Движение ракеток - работает!!!
-#! Условие проигрыша - есть, но пишется в консоль...
