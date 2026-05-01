@@ -1,4 +1,3 @@
-#1. Подключи игровую библиотеку pygame.
 from pygame import*
 #2. Создай окно игры размером 700x500, дай ему название.
 finish = False
@@ -6,14 +5,10 @@ x = 700
 y = 500
 window = display.set_mode((x, y))
 display.set_caption('Ping pong')
-background = transform.scale(image.load("111.png"), (x, y))
+background = transform.scale(image.load("Pony1.png"), (x, y))
 font.init()
 font1 = font.SysFont('Arial', 36)
-#3. Музыка
-mixer.init()
-#!mixer.music.load('')
-#!mixer.music.play()
-#4. Создай и отобрази спрайты для игрока и врага.
+#3. Создай и отобрази спрайты для игрока и врага.
 class GameSprite(sprite.Sprite):
     def __init__(self, player_image, player_x, player_y, player_speed):
         super().__init__()
@@ -40,30 +35,25 @@ class Player(GameSprite):
         if keys[K_UP] and self.rect.y < y - 5:
             self.rect.y -= self.speed
 
-speed_x = 3
-speed_y = 3
+speed = 3
 
 class Ball(GameSprite):
     def balls(self):
-        self.rect.x + speed_x
-        self.rect.y + speed_y
+        self.rect.x + speed
+        self.rect.y + speed
         if self.rect.x <= 0:
             loser1 = font1.render('Игрок 1 проиграл', True, (255, 0, 0))
             finish = True
         if self.rect.x >= 700:
             loser2 = font1.render('Игрок 2 проиграл', True, (255, 0, 0))
             finish = True
-        if self.rect.colliderect(Racket1):
-            self.rect.x *= -1
-            self.rect.y *= -1
-        if self.rect.colliderect(Racket2):
-            self.rect.x *= -1
-            self.rect.y *= -1
-#! id diktui!1!!1! daniil kolbacenko! kto kto?
+        if self.rect.colliderect(Racket1 or Racket2 or self.rect.y >= 500 or self.rect.y <= 0):
+            self.speed *= -1
+            self.speed *= -1
 #Alt + f4
-Racket1 = Player('Raket1.jpg', 600, 200, 5)
-Racket2 = Player('Raket1.jpg', 50, 200, 5)
-bball = Ball('OIP.webp', 150, 350, None)
+Racket1 = Player('Pony.jpg', 600, 200, 5)
+Racket2 = Player('Pony.jpg', 50, 200, 5)
+bball = Ball('Pony.jpg', 350, 150, speed)
 #5. Создай игровой цикл с выходом при нажатии на «Закрыть окно».
 game = True
 clock = time.Clock()
@@ -83,5 +73,11 @@ while game:
     bball.balls()
     bball.reset()
 
+    
+    
     display.update()
     clock.tick(fps)
+
+#! Физика мяча - не работает
+#! Движение ракеток - есть
+#! Условие проигрыша - нету 
